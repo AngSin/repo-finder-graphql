@@ -10,7 +10,8 @@ import { useDebounce } from "../hooks/useDebounce";
 export const SearchPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
-  const { repositories, loading } = useSearchRepositories(debouncedSearchTerm);
+  const { repositories, loading, error } =
+    useSearchRepositories(debouncedSearchTerm);
   const { favorites, addFavorite, removeFavorite } = useFavorites();
 
   const isFavorite = (id: string) => favorites.some((repo) => repo.id === id);
@@ -47,6 +48,7 @@ export const SearchPage: React.FC = () => {
           />
         ))
       )}
+      {!!error && <div>{error.message}</div>}
     </div>
   );
 };
